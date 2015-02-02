@@ -1,0 +1,28 @@
+# Settings that are applied to the templates and used in scripts.
+
+---
+# Vansible settings
+vansible_ip: '2.3.4.5'
+vansible_playbook: 'playbook.yml'
+vansible_memory: '2048'
+
+packages:
+  - git
+  - make
+  - postfix
+  - python-software-properties
+  - nginx
+  - php5-fpm
+  - php5-mcrypt
+  - php5-sqlite
+  - sqlite
+  - php5-cli
+  - php5-xcache
+  - php5-curl
+  - php5-mongo
+  - npm
+  - mongodb-10gen
+
+ppas:
+  - ppa:ondrej/php5
+  - ppa:nginx/stable

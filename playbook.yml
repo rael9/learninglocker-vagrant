@@ -1,0 +1,149 @@
+##
+# Set up a local Learning Locker instance
+#
+
+---
+- hosts: default
+  user: root
+
+  vars_files:
+    - vars.global.yml
+    - vars.project.yml
+
+  tasks:
+    ##
+    # Set Hostname
+    #
+    - hostname: name={{ server_hostname }}
+
+    ##
+    # Message of the day explaining server is under control of Ansible.
+    #
+    - name: General | Setting message of the day.
+      template:
+        src=templates/motd.j2
+        dest=/etc/update-motd.d/95-ansible
+        mode=755
+
+    ##
+    # Apt package installation of required software.
+    #
+    - name: Packages | Set up required PPAs
+      shell: /usr/bin/add-apt-repository -y {{ item }}
+      with_items: ppas
+
+    - name: Packages | Get mongo keys
+      shell: apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+    - name: Packages | Set the mongo repo
+      shell: echo deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen | tee -a /etc/apt/sources.list.d/10gen.list
+
+    - name: Packages | Install required packages
+      apt: pkg={{ item }} state=installed  update_cache=yes
+      with_items: packages
+
+    - name: Packages | Upgrade
+      apt: upgrade=yes
+
+    ##
+    # Install composer
+    #
+    - name: Composer | Install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+    ##
+    # Configure Postfix
+    #
+    - name: Postfix | Configure postfix server
+      template:
+        src=templates/etc-postfix-main-cf.j2
+        dest=/etc/postfix/main.cf
+      notify:
+        - restart postfix
+
+    ##
+    # Add user to mongo
+    #
+    - name: Mongo | Create user creation JS
+      template:
+        src=templates/home-vagrant-mongo-user-js.j2
+        dest=/home/vagrant/mongo-user.js
+
+    - name: Mongo | Create mongo user
+      shell: /usr/bin/mongo /home/vagrant/mongo-user.js
+
+    ##
+    # Restart services
+    #
+    - name: Restart nginx
+      service:
+        name=nginx
+        state=started
+
+    - name: Restart postfix
+      service:
+        name=postfix
+        state=started
+
+    ##
+    # Fix nodejs alias
+    #
+    - name: NodeJS | Fix a nodejs alias issue
+      file:
+        src=/usr/bin/nodejs
+        dest=/usr/bin/node
+        state=link
+
+    ##
+    # Install bower
+    #
+    - name: Bower | Install bower
+      shell: /usr/bin/npm install -g bower
+
+    ##
+    # Install learninglocker
+    #
+    - name: LearningLocker | Install Learning Locker
+      shell: composer create-project learninglocker/learninglocker chdir=/var/www/
+
+    - name: LearningLocker | Migration generate
+      shell: php artisan generate:migration add_statements chdir=/var/www/learninglocker/
+
+    - name: LearningLocker | Set the storage to writable
+      shell: chown -R www-data:www-data /var/www/learninglocker/app/storage
+
+    - name: LearningLocker | Set app configuration
+      template:
+        src=templates/var-www-learninglocker-app-config-app-php.j2
+        dest=/var/www/learninglocker/app/config/app.php
+
+    - name: LearningLocker | Set database configuration
+      template:
+        src=templates/var-www-learninglocker-app-config-database-php.j2
+        dest=/var/www/learninglocker/app/config/database.php
+
+    - name: LearningLocker | Set mail configuration
+      template:
+        src=templates/var-www-learninglocker-app-config-mail-php.j2
+        dest=/var/www/learninglocker/app/config/mail.php
+
+    ##
+    # nginx setup
+    #
+    - name: nginx | Configuration file for our site
+      template:
+        src=templates/etc-nginx-sites-available-default.j2
+        dest=/etc/nginx/sites-available/default
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: >
+        name=nginx
+        state=restarted
+
+    - name: restart postfix
+      service: >
+        name=postfix
+        starte=restarted
