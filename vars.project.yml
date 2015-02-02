@@ -2,7 +2,7 @@
 ##
 # Project specific settings
 #
-project: 'pcg-learninglocker'
+project: 'learninglocker-vagrant'
 server_hostname: 'local.learninglocker.org'
 postfix_dest: 'local.learninglocker.org, localhost.localdomain, localhost'
 mongo_user: 'ubuntu'
