@@ -69,6 +69,12 @@ Setup
 
   Vagrant will automatically install all the required packages, and then install Learning Locker.
 
+5. Reboot the machine.
+
+  ```
+  vagrant reload
+  ```
+
 5. Visit http://local.learninglocker.org/register (or whatever URL you configured).
 
   This will allow you to configure the first user.
