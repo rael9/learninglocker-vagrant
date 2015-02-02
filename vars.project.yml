@@ -4,7 +4,6 @@
 #
 project: 'learninglocker-vagrant'
 server_hostname: 'local.learninglocker.org'
-postfix_dest: 'local.learninglocker.org, localhost.localdomain, localhost'
 mongo_user: 'ubuntu'
 mongo_password: 'superFRIGGINsecret'
 mongo_db_name: 'learninglocker'
