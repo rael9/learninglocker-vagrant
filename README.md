@@ -39,15 +39,8 @@ Setup
   git clone https://github.com/rael9/learninglocker-vagrant.git learninglocker-vagrant
   cd learninglocker-vagrant
   ````
-
-3. Raise the virtual machine.
-  ````
-  vagrant up
-  ````
-
-  Vagrant will automatically install all the required packages, and then install Learning Locker.
-
-4. Edit the vars.project.yml
+  
+3. Edit the vars.project.yml
 
   Edit the vars.project.yml file to change the URL that you would like to use, making sure to change it in the postfix setup as well.
 
@@ -64,6 +57,13 @@ Setup
   # Windows: C:\Windows\System32\drivers\etc\hosts
   2.3.4.5       local.learninglocker.org
   ````
+
+4. Raise the virtual machine.
+  ````
+  vagrant up
+  ````
+
+  Vagrant will automatically install all the required packages, and then install Learning Locker.
 
 5. Visit http://local.learninglocker.org/register (or whatever URL you configured).
 
