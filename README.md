@@ -6,7 +6,7 @@ Vagrant with an ansible-provisioned Learning Locker instance. It's a nice easy w
 Setup
 -----
 
-1. Install Vagrant, Virtualbox, Git, and Ansible
+1. Install Vagrant, Virtualbox, Git, and Ansible.
 
   Requires Vagrant 1.5+.
 
@@ -35,20 +35,17 @@ Setup
   ```
 
 2. Clone this repo if you haven't already.
+
   ````
   git clone https://github.com/rael9/learninglocker-vagrant.git learninglocker-vagrant
   cd learninglocker-vagrant
   ````
-  
-3. Edit the vars.project.yml
 
-  Edit the vars.project.yml file to change the URL that you would like to use, making sure to change it in the postfix setup as well.
+3. Edit the vars.project.yml.
 
-  You can also change the mongo user/pass if you want, as well as the local IP address by adding this, editing the IP:
+  Edit the vars.project.yml file to change the URL that you would like to use, if you want.
 
-  ```
-  vansible_ip: '2.3.4.5'
-  ```
+  You can also change the mongo user/pass if you want.
 
   By default, it uses a local private network using the 2.3.4.5 IP address. You should add this, and the URL configured, to your hosts file:
 
@@ -58,7 +55,14 @@ Setup
   2.3.4.5       local.learninglocker.org
   ````
 
-4. Raise the virtual machine.
+  If you want to change the local IP address you can add this, editing the IP:
+
+  ```
+  vansible_ip: '2.3.4.5'
+  ```
+
+4. Bring up the virtual machine.
+
   ````
   vagrant up
   ````
