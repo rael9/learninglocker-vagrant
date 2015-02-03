@@ -99,9 +99,7 @@
     # Install learninglocker
     #
     - name: LearningLocker | Install Learning Locker
-      composer:
-        command='create-project learninglocker/learninglocker'
-        working_dir=/var/www/
+      shell: composer create-project learninglocker/learninglocker chdir=/var/www/
 
     - name: LearningLocker | Migration generate
       command: php artisan generate:migration add_statements chdir=/var/www/learninglocker/
