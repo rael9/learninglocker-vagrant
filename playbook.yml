@@ -62,13 +62,13 @@
     ##
     # Add user to mongo
     #
+    - name: Mongo | Create user creation JS
+      template:
+        src=templates/home-vagrant-mongo-user-js.j2
+        dest=/home/vagrant/mongo-user.js
 
     - name: Mongo | Create mongo user
-      mongodb_user:
-        database={{ mongo_db_name }}
-        user={{ mongo_user }}
-        password={{ mongo_password }}
-        roles=readWrite
+      command: /usr/bin/mongo /home/vagrant/mongo-user.js
 
     ##
     # Restart services

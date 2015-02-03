@@ -1,0 +1,3 @@
+conn = new Mongo();
+db = conn.getDB("{{ mongo_db_name }}");
+db.addUser( { user: "{{ mongo_user }}", pwd: "{{ mongo_password }}", roles: [ "readWrite" ] } );
