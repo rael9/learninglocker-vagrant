@@ -58,8 +58,6 @@
       template:
         src=templates/etc-postfix-main-cf.j2
         dest=/etc/postfix/main.cf
-      notify:
-        - restart postfix
 
     ##
     # Add user to mongo
@@ -78,11 +76,6 @@
     - name: Restart nginx
       service:
         name=nginx
-        state=started
-
-    - name: Restart postfix
-      service:
-        name=postfix
         state=started
 
     ##
@@ -142,8 +135,3 @@
       service: >
         name=nginx
         state=restarted
-
-    - name: restart postfix
-      service: >
-        name=postfix
-        starte=restarted
