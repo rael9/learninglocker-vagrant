@@ -7,6 +7,7 @@ vansible_playbook: 'playbook.yml'
 vansible_memory: '2048'
 
 packages:
+  - curl
   - git
   - make
   - postfix

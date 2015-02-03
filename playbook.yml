@@ -29,14 +29,14 @@
     # Apt package installation of required software.
     #
     - name: Packages | Set up required PPAs
-      shell: /usr/bin/add-apt-repository -y {{ item }}
+      apt_repository: repo={{ item }}
       with_items: ppas
 
     - name: Packages | Get mongo keys
-      shell: apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+      apt_key: keyserver=keyserver.ubuntu.com id=7F0CEB10
 
     - name: Packages | Set the mongo repo
-      shell: echo deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen | tee -a /etc/apt/sources.list.d/10gen.list
+      apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen'
 
     - name: Packages | Install required packages
       apt: pkg={{ item }} state=installed  update_cache=yes
@@ -68,7 +68,11 @@
         dest=/home/vagrant/mongo-user.js
 
     - name: Mongo | Create mongo user
-      shell: /usr/bin/mongo /home/vagrant/mongo-user.js
+      mongodb_user:
+        database={{ mongo_db_name }}
+        user={{ mongo_user }}
+        password={{ mongo_password }}
+        roles=readWrite
 
     ##
     # Restart services
@@ -91,19 +95,28 @@
     # Install bower
     #
     - name: Bower | Install bower
-      shell: /usr/bin/npm install -g bower
+      npm:
+        name=bower
+        global=yes
 
     ##
     # Install learninglocker
     #
     - name: LearningLocker | Install Learning Locker
-      shell: composer create-project learninglocker/learninglocker chdir=/var/www/
+      composer:
+        command='create-project learninglocker/learninglocker'
+        working_dir=/var/www/
 
     - name: LearningLocker | Migration generate
       shell: php artisan generate:migration add_statements chdir=/var/www/learninglocker/
 
     - name: LearningLocker | Set the storage to writable
-      shell: chown -R www-data:www-data /var/www/learninglocker/app/storage
+      file:
+        user=www-data
+        group=www-data
+        state=directory
+        recurse=yes
+        path=/var/www/learninglocker/app/storage
 
     - name: LearningLocker | Set app configuration
       template:
