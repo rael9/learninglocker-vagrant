@@ -9,6 +9,7 @@
   vars_files:
     - vars.global.yml
     - vars.project.yml
+    - vars.secret.yml
 
   tasks:
     ##
@@ -98,8 +99,12 @@
     ##
     # Install learninglocker
     #
+    - name: LearningLocker | Set up Github OAuth key
+      command: composer config -g github-oauth.github.com {{ github_token }}
+      when: github_token != "false"
+
     - name: LearningLocker | Install Learning Locker
-      shell: composer create-project learninglocker/learninglocker chdir=/var/www/
+      command: composer create-project learninglocker/learninglocker chdir=/var/www/
 
     - name: LearningLocker | Migration generate
       command: php artisan generate:migration add_statements chdir=/var/www/learninglocker/
