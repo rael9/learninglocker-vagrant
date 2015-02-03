@@ -111,7 +111,7 @@
 
     - name: LearningLocker | Set the storage to writable
       file:
-        user=www-data
+        owner=www-data
         group=www-data
         state=directory
         recurse=yes

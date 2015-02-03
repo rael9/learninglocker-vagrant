@@ -60,8 +60,11 @@ Setup
   ```
   vansible_ip: '2.3.4.5'
   ```
+4. Edit the vars.secret.yml.
 
-4. Bring up the virtual machine.
+  When using composer to install Learning Locker, GitHub will sometimes rate-limit the download of items. This _usually_ only happens when an install fails and you have to do it a second time. But just in case, you can create a Personal Access Token here: https://github.com/settings/applications and change the github_token from 'false' to the token value in vars.secret.yml. I would suggest doing this just to save yourself the headache of the install failing. Just be sure not to commit your token anywhere, obviously!
+
+5. Bring up the virtual machine.
 
   ````
   vagrant up
@@ -69,12 +72,12 @@ Setup
 
   Vagrant will automatically install all the required packages, and then install Learning Locker.
 
-5. Reboot the machine.
+6. Reboot the machine.
 
   ```
   vagrant reload
   ```
 
-5. Visit http://local.learninglocker.org/register (or whatever URL you configured).
+7. Visit http://local.learninglocker.org/register (or whatever URL you configured).
 
   This will allow you to configure the first user.
