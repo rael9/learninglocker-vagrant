@@ -81,3 +81,8 @@ Setup
 7. Visit http://local.learninglocker.org/register (or whatever URL you configured).
 
   This will allow you to configure the first user.
+
+NOTES
+-----
+
+It must be said that while Vagrant and VirtualBox are supported on Windows, Ansible is not (at least not as a controller). So the provisioning won't work on Windows. You could set the vagrant up on a Linux or Mac machine and then copy it to a Windows machine to run it, I think, but I have not tried this. I can't think of any reason it wouldn't work, though.
