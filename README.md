@@ -10,7 +10,7 @@ Setup
 
   Requires Vagrant 1.5+.
 
-  See http://vagrant-up.com/downloads and https://www.virtualbox.org/wiki/Downloads for binary installers.
+  See http://vagrantup.com/downloads and https://www.virtualbox.org/wiki/Downloads for binary installers.
 
   If you're on Mac OS X, you probably want to install Homebrew (http://brew.sh/) because it makes installing Ansible easy, and because it is awesome anyway.
 
