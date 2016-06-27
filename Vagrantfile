@@ -17,6 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   require 'yaml'
   vars = YAML.load_file(File.dirname(__FILE__) + "/vars.global.yml")
   vars.merge!(YAML.load_file(File.dirname(__FILE__) + "/vars.project.yml"))
+  vars.merge!(YAML.load_file(File.dirname(__FILE__) + "/vars.secret.yml"))
 
   # Config the VM
   config.vm.box = "ubuntu/trusty64"
