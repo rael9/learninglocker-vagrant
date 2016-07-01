@@ -108,19 +108,19 @@ return array(
     'Illuminate\Validation\ValidationServiceProvider',
     'Illuminate\View\ViewServiceProvider',
     'Illuminate\Workbench\WorkbenchServiceProvider',
+    'Jenssegers\Mongodb\MongodbServiceProvider',
+    'Jenssegers\Mongodb\Auth\ReminderServiceProvider',
+    'Jenssegers\Mongodb\Session\SessionServiceProvider',
     'Locker\Repository\RepositoryServiceProvider',
     'Locker\Data\DataServiceProvider',
     'Locker\Graphing\GraphServiceProvider',
-    'Jenssegers\Mongodb\MongodbServiceProvider',
-    'Jenssegers\Mongodb\Auth\ReminderServiceProvider',
     'DaveJamesMiller\Breadcrumbs\ServiceProvider',
     'Way\Generators\GeneratorsServiceProvider',
     'Barryvdh\Cors\CorsServiceProvider',
-    'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
     'JsLocalization\JsLocalizationServiceProvider',
     'locker\RequestServiceProvider',
-    'Philo\Translate\TranslateServiceProvider'
-
+    'Philo\Translate\TranslateServiceProvider',
+    'Clockwork\Support\Laravel\ClockworkServiceProvider',
   ),
 
   /*
@@ -187,10 +187,9 @@ return array(
     'Validator'       => 'Illuminate\Support\Facades\Validator',
     'View'            => 'Illuminate\Support\Facades\View',
     'Breadcrumbs'     => 'DaveJamesMiller\Breadcrumbs\Facade',
-    'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
+    'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade',
     'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
-    'LockerRequest' => 'locker\RequestFacade'
-
+    'LockerRequest' => 'locker\RequestFacade',
   ),
 
 );

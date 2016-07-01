@@ -31,7 +31,7 @@
     #
     - name: Packages | Set up required PPAs
       apt_repository: repo={{ item }}
-      with_items: ppas
+      with_items: "{{ ppas }}"
 
     - name: Packages | Get mongo keys
       apt_key: keyserver=keyserver.ubuntu.com id=7F0CEB10
@@ -41,16 +41,22 @@
 
     - name: Packages | Install required packages
       apt: pkg={{ item }} state=installed  update_cache=yes
-      with_items: packages
+      with_items: "{{ packages }}"
 
     - name: Packages | Upgrade
-      apt: upgrade=yes
+      apt: upgrade=yes autoremove=yes
 
     ##
     # Install composer
     #
+    - name: Composer | Download Composer installer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-installer.php
+        mode: 0755
+
     - name: Composer | Install composer
-      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer creates=/usr/local/bin/composer
+      shell: php5.6 /tmp/composer-installer.php --install-dir=/usr/local/bin --filename=composer creates=/usr/local/bin/composer
 
     ##
     # Configure Postfix
@@ -104,10 +110,7 @@
       when: github_token != "false"
 
     - name: LearningLocker | Install Learning Locker
-      command: composer create-project learninglocker/learninglocker chdir=/var/www/
-
-    - name: LearningLocker | Migration generate
-      command: php artisan generate:migration add_statements chdir=/var/www/learninglocker/
+      command: composer create-project learninglocker/learninglocker learninglocker "{{ learninglocker_version }}" chdir=/var/www/
 
     - name: LearningLocker | Set the storage to writable
       file:
@@ -131,6 +134,9 @@
       template:
         src=templates/var-www-learninglocker-app-config-mail-php.j2
         dest=/var/www/learninglocker/app/config/mail.php
+
+    - name: LearningLocker | migrate
+      command: php5.6 artisan migrate chdir=/var/www/learninglocker
 
     ##
     # nginx setup

@@ -7,3 +7,5 @@ server_hostname: 'local.learninglocker.org'
 mongo_user: 'ubuntu'
 mongo_password: 'superFRIGGINsecret'
 mongo_db_name: 'learninglocker'
+
+learninglocker_version: 'v1.13.*'
